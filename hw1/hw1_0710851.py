@@ -26,7 +26,7 @@ rawData = np.array(data_df)
 # Random Shuffle for Raw Data
 np.random.shuffle(rawData)
 
-# Split Dataset into Train & Validation
+# Split Dataset into Train & Valid set
 trainData = rawData[:int(sizeData*90/100)]
 valData = rawData[int((-sizeData)*10/100):]
 
@@ -195,12 +195,14 @@ print("[Median_income] is the most contributive feature!!")
 # Maximum likelihood approach - (a)
 print("===Maximum likelihood approach - (a)===\n")
 print('Choose [Polynomial] as the basis function!!')
-print('Polynomial models have moderate flexibility of shapes.')
-print('Polynomial models have well known and understood properties')
+print('1. Polynomial models have moderate flexibility of shapes.')
+print('2. The higher order of Polynomial models can present the interactions between variables.')
+print('3. Polynomial models have well known and understood properties.')
+print('4. Besides, Polynomial model is easy to implement.')
 
 """
 Function:
-- Gauss-Jordan 
+- Gauss-Jordan elimanation
 
 Parameters:
 - matrix
@@ -237,8 +239,8 @@ _val_MLE_RMS = prediction(valData[..., :-1], valData[..., -1], 3, weightM3)
 print("===Maximum likelihood approach - (b)===\n")
 
 print('As polynomial model become higher degree, the curve may oscillate between exact-fit values.')
-print('For example below, Setting M = 3 is much more complicated for this case,')
-print('Since we found that valid set RMS is from the Earth to the Moon which means model is overfitting.\n')
+print('However, Setting M = 3 is also suitable for this case. (See below)')
+print('For the higher order of M, we may see training loss is low but validation loss is high!\n')
 
 print("Trainning set's RMS result:")
 print("M = 1  ", train_MLE_RMS[0])
@@ -304,7 +306,7 @@ print("M = 2  ", val_MLE_RMS_N_Fold[1], '\n')
 # Maximum A Posterior - (a)
 print("===Maximum a  Posterior approach - (a)===\n")
 print('The key difference between MLP & MAP approach:')
-print('If we have prior information, then MAP approach is the way.')
+print('If we have prior information, then MAP approach is the good way.')
 print('Since MLE produces model params. most likely to generate the observed data.')
 print('While if no such prior probalilty, then MLE is a reasonable approach.')
 print('Since MAP is the model params that is most likely given the observed data.')
@@ -365,3 +367,6 @@ print("M = 2  ", val_MAP_RMS_N_Fold[1], '\n')
 print("===Maximum a  Posterior approach - (c)===\n")
 print('The approach difference is presented above.')
 print("But compare with MLE result, show quite similar.")
+print("Something I have to say is that MAP is still a bit worse than MLE in this case.")
+print("If data is big enough, MLE and MAP will converge to same value")
+print("When data is less, the hyper parameter we choose may influence results a lot.")
