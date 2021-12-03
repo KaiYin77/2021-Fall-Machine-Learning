@@ -191,7 +191,7 @@ train_error_list = []
 test_error_list = []
 train_acc_list = []
 test_acc_list = []
-
+print(train_t.shape)
 while not (train_error < 0.01 or EPOCH > 200):
     a = np.dot(weight.T, train.T)
     # Perform Softmax
@@ -199,13 +199,13 @@ while not (train_error < 0.01 or EPOCH > 200):
     # Update Weight
     weight = (weight.T + lr * np.dot((train_t.T - y), train)).T
     
-    train_error = -np.sum(train_t.T * np.log(y))
+    train_error = -np.sum(train_t.T * np.log(y)) / train_t.shape[0]
     train_error_list.append(train_error)
     
     b = np.dot(weight.T, test.T)
     # Perform Softmax
     test_y = np.exp(b) / np.sum(np.exp(b), axis=0)
-    test_error = -np.sum(test_t.T * np.log(test_y))
+    test_error = -np.sum(test_t.T * np.log(test_y)) / test_t.shape[0]
     test_error_list.append(test_error)
 
     #Accuracy
@@ -242,7 +242,7 @@ test_error_list = []
 train_acc_list = []
 test_acc_list = []
 
-while not (train_error < 5 or EPOCH > 200):
+while not (train_error < 0.01 or EPOCH > 50):
     
     # BATCHSIZE = 1
     for i in range(train.shape[0]):
@@ -255,13 +255,13 @@ while not (train_error < 5 or EPOCH > 200):
     a = np.dot(weight.T, train.T)
     # Perform Softmax
     y = np.exp(a) / np.sum(np.exp(a), axis=0)
-    train_error = -np.sum(train_t.T * np.log(y))
+    train_error = -np.sum(train_t.T * np.log(y)) / train_t.shape[0]
     train_error_list.append(train_error)
     
     b = np.dot(weight.T, test.T)
     # Perform Softmax
     test_y = np.exp(b) / np.sum(np.exp(b), axis=0)
-    test_error = -np.sum(test_t.T * np.log(test_y))
+    test_error = -np.sum(test_t.T * np.log(test_y)) / test_t.shape[0]
     test_error_list.append(test_error)
 
     #Accuracy
@@ -298,7 +298,7 @@ test_error_list = []
 train_acc_list = []
 test_acc_list = []
 
-while not (train_error < 5 or EPOCH > 200):
+while not (train_error < 0.01 or EPOCH > 50):
   
     BATCHSIZE = 64
     for i in range(train.shape[0]//BATCHSIZE):
@@ -311,13 +311,13 @@ while not (train_error < 5 or EPOCH > 200):
     a = np.dot(weight.T, train.T)
     # Perform Softmax
     y = np.exp(a) / np.sum(np.exp(a), axis=0)
-    train_error = -np.sum(train_t.T * np.log(y))
+    train_error = -np.sum(train_t.T * np.log(y)) / train_t.shape[0]
     train_error_list.append(train_error)
     
     b = np.dot(weight.T, test.T)
     # Perform Softmax
     test_y = np.exp(b) / np.sum(np.exp(b), axis=0)
-    test_error = -np.sum(test_t.T * np.log(test_y))
+    test_error = -np.sum(test_t.T * np.log(test_y)) / test_t.shape[0]
     test_error_list.append(test_error)
 
     #Accuracy
@@ -360,7 +360,7 @@ for count, w in enumerate(weight_list):
 print("=== 1-2 batch GD / SGD / mini-batch SGD ===")
 print("在訓練200 epoch後，三個方法在training的的accuracy則是收斂在相似處。")
 print("Training過程中，batch GD理論上要是最平滑，SDG更新時理論上要是最隨機混論的")
-print("但圖顯然不是這樣表達的，我認為是Data的分佈不夠隨機造成的")
+print("但圖顯然不是這樣表達的，我認為是因為我是每個epoch才算一次loss, 而不是每個iteration計算造成的。")
 
 print("=== 1-3 Should we use the least squares model for classification problem ? ===")
 print("My answer would be yes, but LS's result may not do well, least-squares solutions lack robustness to outliers.")
